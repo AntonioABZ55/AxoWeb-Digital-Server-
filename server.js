@@ -1,5 +1,4 @@
 const express = require("express");
-const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
 
@@ -11,7 +10,7 @@ const serviceRoutes = require("./routes/serviceRoutes");
 const planRoutes= require("./routes/planRoutes");
 
 // Configurar variables de entorno
-dotenv.config();
+require('dotenv').config();
 console.log("MONGODB_URI:", process.env.MONGODB_URI);
 
 const passport = require("passport");
