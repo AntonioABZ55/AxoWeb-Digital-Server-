@@ -50,6 +50,16 @@ exports.login = async (req, res) => {
   }
 };
 
+//Obtener todos los ususarios
+exports.getUsers = async (req, res)=> {
+  try {
+    const users= await User.find();
+    res.status(200).json({ success: true, data: users });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+}
+
 // Obtener perfil
 exports.getProfile = async (req, res) => {
   try {
