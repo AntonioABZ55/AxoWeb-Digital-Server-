@@ -2,15 +2,26 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// Registro de usuario
+// Crear usuario (cliente o admin, según quien esté autenticado)
 exports.register = async (req, res) => {
   try {
-    const { name, lastname, email, password, phone, company } = req.body;
+    const { name, lastname, email, password, phone, company, typeUser } = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(400).json({ error: 'El correo ya está registrado' });
 
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    let roleToAssign = 'cliente'; // Valor por defecto
+
+    // Solo un admin autenticado puede crear un usuario administrador
+    if (typeUser === 'administrador') {
+      if (req.user?.typeUser === 'administrador') {
+        roleToAssign = 'administrador';
+      } else {
+        return res.status(403).json({ error: 'No autorizado para crear administradores' });
+      }
+    }
 
     const user = await User.create({
       name,
@@ -18,10 +29,11 @@ exports.register = async (req, res) => {
       email,
       password: hashedPassword,
       phone,
-      company
+      company,
+      typeUser: roleToAssign
     });
 
-    res.status(201).json({ message: 'Usuario registrado correctamente' });
+    res.status(201).json({ message: 'Usuario registrado correctamente', user });
   } catch (error) {
     res.status(500).json({ error: 'Error en el registro' });
   }
