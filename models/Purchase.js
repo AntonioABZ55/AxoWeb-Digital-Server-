@@ -1,36 +1,33 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const compraSchema = new mongoose.Schema({
-  usuario: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Usuario',
-    required: [true, 'La compra debe estar asociada a un usuario']
-  },
-  tipo: {
-    type: String,
-    enum: ['servicio', 'plan'],
+const paymentSchema = new Schema({
+  client: {
+    type: Schema.Types.ObjectId,
+    ref: 'User', // O el modelo que uses para clientes
     required: true
   },
-  item: {
-    type: mongoose.Schema.ObjectId,
-    refPath: 'tipo',
-    required: [true, 'La compra debe incluir un servicio o plan']
+  plan: {
+    type: Schema.Types.ObjectId,
+    ref: 'Plan',
+    default: null
   },
-  fechaCompra: {
+  service: {
+    type: Schema.Types.ObjectId,
+    ref: 'Service',
+    default: null
+  },
+  purchaseDate: {
     type: Date,
     default: Date.now
   },
-  fechaVencimiento: {
+  dueDate: {
     type: Date,
-    required: [true, 'Debe especificar una fecha de vencimiento']
+    required: true
   },
-  estado: {
+  status: {
     type: String,
-    enum: ['activo', 'vencido', 'cancelado', 'mantenimiento'],
+    enum: ['activo', 'inactivo', 'cancelado', 'mantenimiento', 'desarrollo', 'vencido'],
     default: 'activo'
   }
 });
-
-const Compra = mongoose.model('Compra', compraSchema);
-
-module.exports = Compra;

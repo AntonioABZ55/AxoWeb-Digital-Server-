@@ -45,6 +45,7 @@ exports.createPlan = async (req, res) => {
     res.status(500).json({ error: 'Error al crear el plan' });
   }
 };
+
 // Obtener todos los planes
 exports.getPlans = async (req, res) => {
   try {
@@ -55,6 +56,7 @@ exports.getPlans = async (req, res) => {
     res.status(500).json({ error: 'Error al obtener los planes' });
   }
 };
+
 // Obtener los planes por categoria
 exports.getPlansByCategory = async (req, res) => {
   try {
@@ -72,6 +74,7 @@ exports.getPlansByCategory = async (req, res) => {
     res.status(500).json({ error: 'Error al obtener los planes por categoría' });
   }
 };
+
 // Obtener los planes populares
 exports.getPopularPlans = async (req, res) => {
   try {
@@ -87,6 +90,7 @@ exports.getPopularPlans = async (req, res) => {
     res.status(500).json({ error: 'Error al obtener los planes populares' });
   }
 };
+
 // Obtener un solo plan por ID
 exports.getPlanById = async (req, res) => {
   try {

@@ -9,6 +9,7 @@ const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
 const planRoutes= require("./routes/planRoutes");
+const purchaseRoutes= require("./routes/purchaseRoutes");
 
 // Configurar variables de entorno
 console.log("MONGODB_URI:", process.env.MONGODB_URI);
@@ -31,8 +32,9 @@ app.use(passport.initialize());
 // Rutas
 app.use("/api/users", userRoutes);    // Registro, login, perfil, etc.
 app.use("/auth", authRoutes);         // Google OAuth
-app.use("/api/services", serviceRoutes); // ✅ Servicios (solo admins)
-app.use("/api/plans", planRoutes); // Planes 
+app.use("/api/services", serviceRoutes); // ✅ Servicios
+app.use("/api/plans", planRoutes); // Planes
+app.use("/api/pucharse", purchaseRoutes); //Compras
 
 // Ruta raíz
 app.get("/", (req, res) => {
