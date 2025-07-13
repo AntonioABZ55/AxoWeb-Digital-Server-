@@ -13,11 +13,16 @@ const planSchema = new mongoose.Schema({
     type: String,
     required: [true, 'La URL del icono es obligatoria']
   },
+  includes: {
+    type: [String],
+    default: [],
+    required: [false]
+  },
   services: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Service',
-      required: [true, 'Se requiere al menos un servicio']
+      required: [false,]
     }
   ],
   minPrice: {

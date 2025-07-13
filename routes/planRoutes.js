@@ -4,10 +4,10 @@ const planController = require('../controllers/planController');
 const { authMiddleware, isAdmin } = require('../middlewares/authMiddleware');
 
 // Rutas públicas
-router.get('/plans', planController.getPlans);
-router.get('/popular', planController.getPopularPlans);
+router.get('/allPlans', planController.getPlans);
+router.get('/popularPlans', planController.getPopularPlans);
 router.get('/category/:category', planController.getPlansByCategory);
-router.get('/:id', planController.getPlanById);
+router.get('/plan/:id', planController.getPlanById);
 
 // Rutas protegidas (admin)
 router.post('/createPlan', authMiddleware, isAdmin, planController.createPlan);
