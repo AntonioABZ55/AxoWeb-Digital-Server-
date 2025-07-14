@@ -16,7 +16,7 @@ router.delete('/autoDelete', authMiddleware, userController.deleteUser);
 // Ejemplo de ruta solo para administradores
 router.post('/registerAdmin', authMiddleware, isAdmin, userController.register)
 router.get('/allUsers', authMiddleware, isAdmin, userController.getUsers);
-router.delete('/deleteByAdmin/:id', authMiddleware, userController.deleteUser);
+router.delete('/deleteByAdmin/:id', authMiddleware, userController.deleteUserById);
 router.get('/admin', authMiddleware, isAdmin, (req, res) => {
   res.json({ message: 'Ruta accesible solo para administradores' });
 });

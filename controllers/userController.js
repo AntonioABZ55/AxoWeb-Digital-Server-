@@ -133,7 +133,21 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
+// Eliminar usuario por ID (requiere ser admin o validación extra)
+exports.deleteUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
 
+    const deletedUser = await User.findByIdAndDelete(id);
+    if (!deletedUser) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+
+    res.json({ message: 'Usuario eliminado correctamente' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al eliminar usuario' });
+  }
+};
 
 
 
