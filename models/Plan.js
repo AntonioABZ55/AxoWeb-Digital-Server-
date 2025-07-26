@@ -22,7 +22,7 @@ const planSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Service',
-      required: [false,]
+      required: [false]
     }
   ],
   minPrice: {

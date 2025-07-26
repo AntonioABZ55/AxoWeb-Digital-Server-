@@ -9,7 +9,7 @@ exports.createPlan = async (req, res) => {
       category,
       icon,
       includes = [],
-      services,
+      services  = [],
       minPrice,
       maxPrice,
       currency,
@@ -18,21 +18,23 @@ exports.createPlan = async (req, res) => {
       description
     } = req.body;
 
-    // Validar que los servicios existan
-    const foundServices = await Service.find({ _id: { $in: services } });
+    if(services.length() > 0) {
+      // Validar que los servicios existan
+      const foundServices = await Service.find({ _id: { $in: services } });
 
-    if (foundServices.length !== services.length) {
-      return res.status(400).json({
-        error: 'Uno o más servicios no existen en el sistema'
-      });
+      if (foundServices.length !== services.length) {
+        return res.status(400).json({
+          error: 'Uno o más servicios no existen en el sistema'
+        });
+      }
     }
-
+    
     const nuevoPlan = await Plan.create({
       name,
       category,
       icon,
       includes,
-      services,
+      services: foundServices.map(s => s._id),
       minPrice,
       maxPrice,
       currency,
@@ -143,7 +145,7 @@ exports.updatePlan = async (req, res) => {
       category,
       icon,
       includes = [],
-      services,
+      services =[],
       minPrice,
       maxPrice,
       currency,
@@ -152,14 +154,17 @@ exports.updatePlan = async (req, res) => {
       description
     } = req.body;
 
-    // Verificar si vienen servicios y validarlos
-    if (services && services.length > 0) {
+    // Validar solo si services tiene elementos
+    if (services.length > 0) {
       const foundServices = await Service.find({ _id: { $in: services } });
+
       if (foundServices.length !== services.length) {
         return res.status(400).json({
           error: 'Uno o más servicios no existen en el sistema'
         });
       }
+
+      serviciosValidados = foundServices.map(s => s._id);
     }
 
     const planActualizado = await Plan.findByIdAndUpdate(
@@ -169,7 +174,7 @@ exports.updatePlan = async (req, res) => {
         category,
         icon,
         includes,
-        services,
+        services : serviciosValidados,
         minPrice,
         maxPrice,
         currency,
